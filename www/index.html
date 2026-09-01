@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0A0F1A" />
+<title>Waypoint — wake me there</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <!-- ===================== STEP 01 — DESTINATION ===================== -->
+    <section class="screen" id="screen-destination" data-active="true">
+      <header class="eyebrow-row">
+        <span class="eyebrow">01 — DESTINATION</span>
+        <span class="eyebrow eyebrow--dim">SET WHERE TO WAKE YOU</span>
+      </header>
+
+      <div class="search-row">
+        <input id="place-search" type="text" placeholder="Search a stop, station, address…" autocomplete="off" />
+      </div>
+
+      <div id="map" class="map"></div>
+
+      <div class="radius-row">
+        <label for="radius">
+          <span>Wake radius</span>
+          <span class="mono" id="radius-value">400 m</span>
+        </label>
+        <input type="range" id="radius" min="100" max="2000" step="50" value="400" />
+        <p class="hint">Alarm fires when you're inside this ring of the pin.</p>
+      </div>
+
+      <button class="btn btn--primary" id="btn-to-sound" disabled>Drop pin, then continue →</button>
+    </section>
+
+    <!-- ===================== STEP 02 — SOUND ===================== -->
+    <section class="screen" id="screen-sound" data-active="false">
+      <header class="eyebrow-row">
+        <span class="eyebrow">02 — WAKE SOUND</span>
+        <span class="eyebrow eyebrow--dim">PICK WHAT PLAYS</span>
+      </header>
+
+      <p class="body-copy">
+        Browsers can't hand your phone's system ringtone list to a web app —
+        only your OS's native dialer can do that. Instead, pick any audio file
+        on your device (a downloaded ringtone, a voice memo, a song). It'll loop
+        at full volume when you arrive.
+      </p>
+
+      <label class="file-drop" for="sound-input">
+        <input type="file" id="sound-input" accept="audio/*" hidden />
+        <span id="file-drop-label">Choose an audio file…</span>
+      </label>
+
+      <div class="sound-preview" id="sound-preview" hidden>
+        <button class="btn btn--ghost btn--small" id="btn-preview">▶ Preview</button>
+        <span class="mono" id="sound-filename"></span>
+      </div>
+
+      <div class="row-split">
+        <button class="btn btn--ghost" id="btn-back-to-dest">← Back</button>
+        <button class="btn btn--primary" id="btn-to-arm" disabled>Arm →</button>
+      </div>
+    </section>
+
+    <!-- ===================== STEP 03 — ARMED / RADAR ===================== -->
+    <section class="screen" id="screen-armed" data-active="false">
+      <header class="eyebrow-row">
+        <span class="eyebrow">03 — TRACKING</span>
+        <span class="eyebrow eyebrow--dim" id="armed-status">LIVE</span>
+      </header>
+
+      <div class="radar-wrap">
+        <svg viewBox="0 0 320 320" class="radar" id="radar-svg">
+          <circle cx="160" cy="160" r="150" class="ring" />
+          <circle cx="160" cy="160" r="105" class="ring" />
+          <circle cx="160" cy="160" r="60" class="ring" />
+          <circle cx="160" cy="160" r="4" class="ring-center" />
+          <line x1="160" y1="160" x2="160" y2="10" class="sweep" id="sweep" />
+          <circle cx="160" cy="60" r="6" class="ping" id="ping" />
+        </svg>
+        <div class="radar-readout">
+          <span class="mono readout-distance" id="readout-distance">— m</span>
+          <span class="readout-label">to destination</span>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-label">Destination</span>
+          <span class="stat-value" id="stat-destination">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Wake radius</span>
+          <span class="stat-value mono" id="stat-radius">—</span>
+        </div>
+      </div>
+
+      <button class="btn btn--ghost" id="btn-disarm">Disarm &amp; edit</button>
+    </section>
+
+    <!-- ===================== ALARM OVERLAY ===================== -->
+    <div class="alarm-overlay" id="alarm-overlay" hidden>
+      <span class="alarm-eyebrow">YOU'VE ARRIVED</span>
+      <h1 class="alarm-title">Wake up.</h1>
+      <p class="alarm-sub" id="alarm-sub">You're inside the wake radius.</p>
+      <button class="btn btn--alarm" id="btn-stop-alarm">Stop alarm</button>
+    </div>
+
+  </div>
+
+  <audio id="alarm-audio" loop></audio>
+
+  <!-- Replace YOUR_GOOGLE_MAPS_API_KEY with a real key (Maps JavaScript API + Places API enabled) -->
+<script src="js/map.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>

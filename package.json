@@ -1,0 +1,20 @@
+{
+  "name": "waypoint",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Wake up automatically when you reach your stop — PWA + Capacitor Android wrapper.",
+  "scripts": {
+    "sync": "npx cap sync android",
+    "open:android": "npx cap open android",
+    "build:android": "cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor-community/background-geolocation": "^1.2.20",
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.2.2",
+    "@capacitor/local-notifications": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0"
+  }
+}
